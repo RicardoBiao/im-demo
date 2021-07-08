@@ -1,0 +1,123 @@
+<!--pages/intelligent-robot/intelligent-robot.wxml-->
+
+<view class="page">
+
+    <!-- 聊天会话列表 -->
+    <view class="body">
+        <scroll-view scroll-y="{{true}}" scroll-into-view="{{scrollItem}}" scroll-with-animation="{{true}}" style="height: {{scrollHeight - 20}}px;padding-bottom:40rpx;">
+             <view wx:for="{{chatList}}" wx:key="index" wx:for-index="index" wx:for-item="item" id="chat{{index}}">
+                 <view style="height:40rpx;"></view>
+                <!-- 对方 -->
+                <block wx:if="{{item.type == 'other'}}">
+                    <view class="chat-item" style="justify-content: flex-start;">
+                        <view class="chat-item-headImg">
+                            <image src="{{item.friendHeadUrl}}" />
+                        </view>
+                        <view class="chat-item-content" style="{{item.friendName?'justify-content: flex-start;':'margin-top: 20rpx;'}}">
+                            <view class="chat-item-name" wx:if="{{item.friendName}}">{{item.friendName}}</view>
+                            <view style="position: relative">
+                                <view class="arrow, al"></view>
+                                <view class="chat-item-bubble" style="background: #FFF;">
+                                    
+                                    <!-- 文本类型 -->
+                                    <block wx:if="{{item.ans_type == 1}}">
+                                        <view>{{item.content}}</view>
+                                        <block wx:if="{{item.queryList}}" wx:for="{{item.queryList}}" wx:for-item="qs" wx:for-index="idx" wx:key="idx">
+                                            <view style="color: red;" bindtap="tapQuestion" data-query="{{qs}}">{{idx+1}}.{{qs}}</view>
+                                        </block>
+                                    </block>
+
+                                    <!-- 文件类型 -->
+                                    <block wx:if="{{item.ans_type == 2}}">
+
+                                    </block>
+
+                                    <!-- 图文类型 -->
+                                    <block wx:if="{{item.ans_type == 3}}">
+                                        <view>{{item.content}}</view>
+                                        <image src="https://ricardo-bucket.oss-cn-hangzhou.aliyuncs.com/RicardoMusicCloud/images/235000-1584114600db79.png" />
+                                    </block>
+
+                                    <!-- 图片类型 -->
+                                    <block wx:if="{{item.ans_type == 4}}">
+                                        <image style="width:500rpx;" mode="widthFix" src="https://ricardo-bucket.oss-cn-hangzhou.aliyuncs.com/RicardoMusicCloud/images/235000-1584114600db79.png" />       
+                                    </block>
+
+                                    <!-- 视频类型 -->
+                                    <block wx:if="{{item.ans_type == 5}}">
+                                        <video style="width:500rpx; height: 300rpx;" src="https://ricardo-bucket.oss-cn-hangzhou.aliyuncs.com/RicardoMusicCloud/video/6c974701358444789711847f5e5ebce7.mp4"></video>
+                                    </block>
+
+                                    
+
+                                
+                                
+                                
+                                
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </block>
+            
+                <!-- 时间 -->
+                <block wx:if="{{item.type == 'time'}}">
+                    <view class="chat-time">{{item.time}}</view>
+                </block>
+
+                <!-- 自己 -->
+                <block wx:if="{{item.type == 'me'}}">
+                    <view class="chat-item" style="justify-content: flex-end;">
+                        
+                        <view class="chat-item-content" style="{{item.friendName?'justify-content: flex-start;text-align: end;':'margin-top: 20rpx;'}}">
+                            <view class="chat-item-name" wx:if="{{item.friendName}}">{{item.friendName}}</view>
+                            <view style="position: relative">
+                                <view class="arrow, ar"></view>
+                                <view class="chat-item-bubble" style="background: rgb(112, 196, 252)">{{item.content}}</view>
+                            </view>
+                        </view>
+                        <view class="chat-item-headImg">
+                            <image src="{{item.friendHeadUrl}}" />
+                        </view>
+                    </view>
+                </block>
+
+
+            </view>
+        </scroll-view>
+    </view>
+
+
+
+    <!-- 底部输入控件 -->
+    <view class="action-box">
+        <view class="action-bar">
+            <view style="display: flex;flex-direction: column;justify-content: flex-end;">
+                <view class="voice"></view>
+            </view> 
+                <view class="input-box">
+                    <textarea 
+                        disable-default-padding="{{true}}" 
+                        adjust-position confirm-type="send" 
+                        show-confirm-bar="{{false}}"
+                        bindlinechange="lineChange" 
+                        style="height: {{inputHeight}}px" 
+                        bindkeyboardheightchange="aaa"
+                        bindconfirm="send"
+                        bindinput="onInput"
+                        model:value="{{inputContent}}"
+                    ></textarea>
+                </view>
+            
+            <view style="display: flex;flex-direction: column;justify-content: flex-end;">
+                <view class="send-btn" bind:tap="send">发送</view>
+            </view>
+        </view>
+        
+    </view>
+
+
+   
+
+
+</view>

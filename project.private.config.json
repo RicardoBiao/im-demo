@@ -1,0 +1,23 @@
+{
+  "condition": {
+    "plugin": {
+      "list": []
+    },
+    "game": {
+      "list": []
+    },
+    "gamePlugin": {
+      "list": []
+    },
+    "miniprogram": {
+      "list": [
+        {
+          "name": "pages/intelligent-robot/intelligent-robot",
+          "pathName": "pages/intelligent-robot/intelligent-robot",
+          "query": "query=%E9%A2%84%E8%AE%A2%E7%81%AB%E8%BD%A6%E7%A5%A8",
+          "scene": null
+        }
+      ]
+    }
+  }
+}
