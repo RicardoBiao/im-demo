@@ -4,7 +4,7 @@
     min-height: 100vh;
     flex-direction: column;
     justify-content: space-between;
-    background: rgb(233, 232, 232);
+    background: #EDEDED;
 }
 .body {
     flex: 1;
@@ -13,7 +13,7 @@
 .action-box {
     width: calc(100vw - 40rpx);
     padding: 40rpx 20rpx 80rpx;
-    background-color: aqua;
+    background-color: #E1E5F1;
     position: fixed;
     left: 0;
     bottom: 0;
@@ -28,7 +28,13 @@
 .voice {
     width: 80rpx;
     height: 80rpx;
-    background-color: yellowgreen;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.voice image {
+    width: 55rpx;
+    height: 55rpx;
 }
 .input-box {
     width: 440rpx;
@@ -46,7 +52,7 @@
     line-height: 80rpx;
     text-align: center;
     border-radius: 16rpx;
-    background-color: green;
+    background-color: #3399ff;
     color: #fff;
 }
 .arrow {
@@ -63,7 +69,7 @@
 }
 
 .ar {
-    border-color:transparent transparent  transparent rgb(112, 196, 252);
+    border-color:transparent transparent  transparent #d5ebff;
     right: -32rpx;
 }
 
@@ -73,20 +79,20 @@
     display: flex;
     width: 100vw;
     height: auto;
-    padding-bottom: 40rpx;
+    padding-bottom: 20rpx;
 }
 
 .chat-item-headImg {
     width: 80rpx;
     height: 80rpx;
-    border-radius: 12rpx;
-    background-color: red;
+    border-radius: 8rpx;
+    background-color: #fff;
     margin: 20rpx;
 }
 .chat-item-headImg image {
     width: 80rpx;
     height: 80rpx;
-    border-radius: 12rpx;
+    border-radius: 8rpx;
 }
 
 .chat-item-content {
@@ -123,5 +129,33 @@
     border-radius: 12rpx;
 }
 
+.chat-item-file {
+    display: flex;
+
+}
+
+.chat-item-file image {
+    width: 100rpx;
+    height: 100rpx;
+}
+
+.chat-useful {
+    display: flex;
+    justify-content: space-between;
+    width: 200rpx;
+    margin-left: 120rpx;
+    
+}
+
+.chat-useful-item {
+    background: #fff;
+    padding: 10rpx;
+    border-radius: 8rpx;
+}
+
+.is-useful {
+    background-color: #3399ff;
+    color: #fff;
+}
 
 /* 对话 end */
