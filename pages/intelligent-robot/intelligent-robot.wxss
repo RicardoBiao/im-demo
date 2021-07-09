@@ -156,5 +156,9 @@
     background-color: #3399ff;
     color: #fff;
 }
+.is-useless {
+    background-color: #fc7878;
+    color: #fff;
+}
 
 /* 对话 end */

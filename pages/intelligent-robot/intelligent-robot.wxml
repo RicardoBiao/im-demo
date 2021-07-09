@@ -70,7 +70,7 @@
                     <!-- 有用、无用控件 ansUseful 1有用，2无用-->
                     <view class="chat-useful" wx:if="{{item.ansUseful != null}}">
                         <view class="chat-useful-item, {{item.ansUseful == 1 ? 'is-useful' : ''}}" bindtap="usefulHandle" data-index="{{index}}" data-useful="1">有用</view>
-                        <view class="chat-useful-item, {{item.ansUseful == 2 ? 'is-useful' : ''}}" bindtap="usefulHandle" data-index="{{index}}" data-useful="2">无用</view>
+                        <view class="chat-useful-item, {{item.ansUseful == 2 ? 'is-useless' : ''}}" bindtap="usefulHandle" data-index="{{index}}" data-useful="2">无用</view>
                     </view>
                 </block>
             
