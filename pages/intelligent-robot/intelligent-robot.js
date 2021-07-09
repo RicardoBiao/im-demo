@@ -1,7 +1,7 @@
 /*
  * @Author: liweibiao
  * @Date: 2021-07-07 16:08:36
- * @LastEditTime: 2021-07-09 11:47:43
+ * @LastEditTime: 2021-07-09 12:05:03
  * @Description: 
  */
 // pages/intelligent-robot/intelligent-robot.js
@@ -68,7 +68,7 @@ Component({
       },
       {
         type: 'time',
-        time: '2021-7-1 12:00:21',
+        time: '2021-7-1 12:00',
       },
       {
         type: 'me',
@@ -123,11 +123,20 @@ Component({
     },
 
     send() {
+      
+      
+
+      
       console.log('inputContent===>', this.data.inputContent)
       // console.log(this)
       console.log('map',questionMap,questionMap.get(Number(this.data.inputContent)))
       var inputContent;
       if(this.data.inputContent) {
+        // 添加时间
+        this.data.chatList.push({
+          type: 'time',
+          time: this.getTimeStr()
+        });
         // Map内有该问题编号则inputContent为编号对应的问题
         if(questionMap.get(Number(this.data.inputContent))) {
           inputContent = questionMap.get(Number(this.data.inputContent))
@@ -270,7 +279,20 @@ Component({
         title: '感谢您的反馈',
         icon: 'none'
       })
-    }
+    },
+
+    // 获取当前时间字符串
+    getTimeStr() {
+      let time = new Date(),
+      nowYear  = time.getFullYear(),
+      nowMonth  = time.getMonth() + 1,
+      nowDay = time.getDate(),
+      nowHour = time.getHours(),
+      nowMinute = time.getMinutes();
+      console.log('nowTime===>', nowYear + '-' + nowMonth + '-' + nowDay + ' ' + nowHour + ':' + (nowMinute < 10 ? '0'+nowMinute : nowMinute) )
+      let nowTime = nowYear + '-' + nowMonth + '-' + nowDay + ' ' + nowHour + ':' + (nowMinute < 10 ? '0'+nowMinute : nowMinute)
+      return nowTime
+    },
     
   }
 })
