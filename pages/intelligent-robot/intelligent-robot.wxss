@@ -149,7 +149,7 @@
 
 .chat-useful-item {
     background: #fff;
-    padding: 10rpx;
+    padding: 10rpx 15rpx;
     border-radius: 8rpx;
 }
 
