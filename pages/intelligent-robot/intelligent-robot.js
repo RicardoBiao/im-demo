@@ -1,7 +1,7 @@
 /*
  * @Author: liweibiao
  * @Date: 2021-07-07 16:08:36
- * @LastEditTime: 2021-07-09 17:08:53
+ * @LastEditTime: 2021-07-09 18:19:29
  * @Description: 
  */
 // pages/intelligent-robot/intelligent-robot.js
@@ -158,8 +158,8 @@ Component({
     
 
     send(voiceRes) {
-      console.log('send===>', this.data.inputContent)
-      if(voiceRes) {
+      console.log('send===>', this.data.inputContent, voiceRes)
+      if(voiceRes && !voiceRes.type) {
         this.data.inputContent = voiceRes
       }
       // 储存数字对应的文案
