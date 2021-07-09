@@ -33,8 +33,8 @@
     align-items: center;
 }
 .voice image {
-    width: 55rpx;
-    height: 55rpx;
+    width: 65rpx;
+    height: 65rpx;
 }
 .input-box {
     width: 440rpx;

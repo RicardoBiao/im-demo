@@ -106,12 +106,15 @@
     <!-- 底部输入控件 -->
     <view class="action-box">
         <view class="action-bar">
-            <view style="display: flex;flex-direction: column;justify-content: flex-end;">
+            <view style="display: flex;flex-direction: column;justify-content: flex-end;" bindtap="changeActionMode">
                 <view class="voice">
-                    <image src="./assets/yuyin.svg" />
+                    <image wx:if="{{isTextMode}}" src="./assets/yuyin.svg" />
+                    <image wx:else src="./assets/jianpan.svg" />
                 </view>
             </view> 
-                <view class="input-box">
+            <view class="input-box">
+                <view style="height: 100%;text-align: center;font-weight: bold;line-height: 80rpx;" wx:if="{{!isTextMode}}" bind:touchstart="startRecord" bind:touchend="stopRecord" bind:touchcancel="stopRecord">按住 说话</view>
+                <block wx:else>
                     <textarea 
                         disable-default-padding="{{true}}" 
                         adjust-position confirm-type="send" 
@@ -123,8 +126,9 @@
                         bindinput="onInput"
                         model:value="{{inputContent}}"
                     ></textarea>
-                </view>
-            
+                </block>
+                
+            </view>
             <view style="display: flex;flex-direction: column;justify-content: flex-end;">
                 <view class="send-btn" bind:tap="send">发送</view>
             </view>

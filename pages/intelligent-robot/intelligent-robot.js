@@ -1,10 +1,14 @@
 /*
  * @Author: liweibiao
  * @Date: 2021-07-07 16:08:36
- * @LastEditTime: 2021-07-09 15:59:33
+ * @LastEditTime: 2021-07-09 17:08:53
  * @Description: 
  */
 // pages/intelligent-robot/intelligent-robot.js
+
+
+var wxSIPlugin = requirePlugin("WechatSI")
+let SIManager = wxSIPlugin.getRecordRecognitionManager();
 
 const questionMap = new Map();
 
@@ -15,11 +19,32 @@ Component({
   properties: {
 
   },
+  lifetimes: {
+    attached: function () {
+      SIManager.onRecognize = function(res) {
+        console.log("current result", res.result)
+      }
+      SIManager.onStop = function(res) {
+        console.log("record file path", res.tempFilePath)
+        console.log("result", res.result)
+        console.log("this", this)
+        this.send(res.result);
+      }
+      SIManager.onStart = function(res) {
+        console.log("成功开始录音识别", res)
+      }
+      SIManager.onError = function(res) {
+        console.error("error msg", res.msg)
+      }
+    },
+  },
 
   /**
    * 组件的初始数据
    */
   data: {
+    // 是否输入框模式
+    isTextMode: true,
     chatList: [
       {
         type: 'other',
@@ -102,6 +127,11 @@ Component({
         ]
       )
     },
+    changeActionMode() {
+      this.setData({
+        isTextMode: !this.data.isTextMode
+      })
+    },
 
     // Map存储数字和问题M
     creatQuestionMap(qs) {
@@ -115,10 +145,23 @@ Component({
     onInput(e) {
       // console.log('onInput===>', this.data.inputContent)
     },
+    
+    // 开始录音
+    startRecord() {
+      SIManager.start({duration:30000, lang: "zh_CN"})
+    },
 
-    send() {
+    // 停止录音
+    stopRecord() {
+      SIManager.stop();
+    },
+    
+
+    send(voiceRes) {
       console.log('send===>', this.data.inputContent)
-
+      if(voiceRes) {
+        this.data.inputContent = voiceRes
+      }
       // 储存数字对应的文案
       var inputContent;
       if(this.data.inputContent != '') {
