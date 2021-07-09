@@ -36,7 +36,7 @@
                                     <block wx:if="{{item.ans_type == 2}}">
                                         <view bindtap="downloadFile" data-file="{{item.file}}" class="chat-item-file">
                                             <image src="./assets/pdf.svg" />
-                                            <view style="margin: auto auto auto 20rpx;">{{item.file.name}}.{{item.file.type}}</view>
+                                            <view style="margin: auto auto auto 20rpx;">{{item.file.name}}</view>
                                         </view>
                                     </block>
 
@@ -68,7 +68,7 @@
                     </view>
 
                     <!-- 有用、无用控件 ansUseful 1有用，2无用-->
-                    <view class="chat-useful">
+                    <view class="chat-useful" wx:if="{{item.ansUseful != null}}">
                         <view class="chat-useful-item, {{item.ansUseful == 1 ? 'is-useful' : ''}}" bindtap="usefulHandle" data-index="{{index}}" data-useful="1">有用</view>
                         <view class="chat-useful-item, {{item.ansUseful == 2 ? 'is-useful' : ''}}" bindtap="usefulHandle" data-index="{{index}}" data-useful="2">无用</view>
                     </view>
