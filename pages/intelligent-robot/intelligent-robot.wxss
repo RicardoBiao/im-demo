@@ -180,5 +180,13 @@ button {
 button::after {
     display: none;
 }
+
+.bt-hover {
+    opacity: 0.7;
+    position: relative;
+    top: 3rpx;
+    left: 3rpx;
+    box-shadow:0px 0px 8px rgba(0, 0, 0, .1) inset;
+}
   
   /**************** 原生样式重置 end *******************/

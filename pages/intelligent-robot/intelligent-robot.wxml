@@ -123,6 +123,7 @@
                 <block wx:if="{{!isTextMode}}">
                     <button
                         style="font-weight: bold;line-height: 80rpx;background-color: #fff;"
+                        hover-class="bt-hover"
                         bind:touchstart="startRecord" 
                         bind:touchend="stopRecord" 
                         bind:touchcancel="stopRecord"
