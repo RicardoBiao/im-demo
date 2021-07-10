@@ -6,6 +6,7 @@
  */
 // pages/intelligent-robot/intelligent-robot.js
 
+import {chatBehavior} from './chatBehavior';
 
 var wxSIPlugin = requirePlugin("WechatSI")
 let SIManager = wxSIPlugin.getRecordRecognitionManager();
@@ -13,6 +14,7 @@ let SIManager = wxSIPlugin.getRecordRecognitionManager();
 const questionMap = new Map();
 
 Component({
+  behaviors: [ chatBehavior ],
   /**
    * 组件的属性列表
    */
@@ -21,19 +23,19 @@ Component({
   },
   lifetimes: {
     attached: function () {
-      SIManager.onRecognize = function(res) {
+      SIManager.onRecognize = function (res) {
         console.log("current result", res.result)
       }
-      SIManager.onStop = function(res) {
+      SIManager.onStop = function (res) {
         console.log("record file path", res.tempFilePath)
         console.log("result", res.result)
         console.log("this", this)
         this.send(res.result);
       }
-      SIManager.onStart = function(res) {
+      SIManager.onStart = function (res) {
         console.log("成功开始录音识别", res)
       }
-      SIManager.onError = function(res) {
+      SIManager.onError = function (res) {
         console.error("error msg", res.msg)
       }
     },
@@ -45,8 +47,7 @@ Component({
   data: {
     // 是否输入框模式
     isTextMode: true,
-    chatList: [
-      {
+    chatList: [{
         type: 'other',
         ans_type: 1,
         friendHeadUrl: 'https://chouka.oss-cn-hangzhou.aliyuncs.com/product_img.png',
@@ -69,6 +70,12 @@ Component({
         ansUseful: 0,
       },
       {
+        ansUseful: 0,
+        ans_type: 2,
+        file: {fileId: "12312321113fsa1231", name: "wddasd.pdf", url: "https://ricardo-bucket.oss-cn-hangzhou.aliyuncs.co…%E6%98%AF%E6%93%8D%E4%BD%9C%E6%89%8B%E5%86%8C.pdf"},
+        type: "other"
+      },
+      {
         type: 'other',
         ans_type: 3,
         imgUrl: 'https://ricardo-bucket.oss-cn-hangzhou.aliyuncs.com/RicardoMusicCloud/images/235000-1584114600db79.png',
@@ -79,18 +86,18 @@ Component({
         type: 'other',
         ans_type: 2,
         file: {
-          name: '操作手册',
-          type: 'pdf',
+          fileId: '123123',
+          name: '操作手册.pdf',
           url: 'https://ricardo-bucket.oss-cn-hangzhou.aliyuncs.com/%E6%88%91%E6%98%AF%E6%93%8D%E4%BD%9C%E6%89%8B%E5%86%8C.pdf',
         },
         ansUseful: 0,
       },
-      {
-        type: 'other',
-        ans_type: 5,
-        ansUseful: 0,
-        videoUrl: 'https://ricardo-bucket.oss-cn-hangzhou.aliyuncs.com/RicardoMusicCloud/video/6c974701358444789711847f5e5ebce7.mp4',
-      },
+      // {
+      //   type: 'other',
+      //   ans_type: 5,
+      //   ansUseful: 0,
+      //   videoUrl: 'https://ricardo-bucket.oss-cn-hangzhou.aliyuncs.com/RicardoMusicCloud/video/6c974701358444789711847f5e5ebce7.mp4',
+      // },
       {
         type: 'time',
         time: '2021-7-1 12:00',
@@ -136,8 +143,8 @@ Component({
     // Map存储数字和问题M
     creatQuestionMap(qs) {
       questionMap.clear();
-      qs.forEach((q,index) => {
-        questionMap.set(index+1, q)
+      qs.forEach((q, index) => {
+        questionMap.set(index + 1, q)
       });
     },
 
@@ -145,38 +152,41 @@ Component({
     onInput(e) {
       // console.log('onInput===>', this.data.inputContent)
     },
-    
+
     // 开始录音
     startRecord() {
-      SIManager.start({duration:30000, lang: "zh_CN"})
+      SIManager.start({
+        duration: 30000,
+        lang: "zh_CN"
+      })
     },
 
     // 停止录音
     stopRecord() {
       SIManager.stop();
     },
-    
+
 
     send(voiceRes) {
       console.log('send===>', this.data.inputContent, voiceRes)
-      if(voiceRes && !voiceRes.type) {
+      if (voiceRes && !voiceRes.type) {
         this.data.inputContent = voiceRes
       }
       // 储存数字对应的文案
       var inputContent;
-      if(this.data.inputContent != '') {
+      if (this.data.inputContent != '') {
 
         // 添加时间
         this.addTimeMark();
 
         // Map内有该问题编号则inputContent为编号对应的问题
-        if(questionMap.get(Number(this.data.inputContent))) {
+        if (questionMap.get(Number(this.data.inputContent))) {
           inputContent = questionMap.get(Number(this.data.inputContent))
         }
 
         // TODO: 待对接接口； inputContent 调接口的时间传这个
         this.mokeSend();
-        
+
       } else {
         // 无输入内容
         // return
@@ -184,23 +194,56 @@ Component({
         // TODO: 调试待删除
         let ans = {
           ans_content: '这是问题的答案，这是问题的答案，这是问题的答案，这是问题的答案，这是问题的答案',
-          ans_files: [
-          {
-            ans_file_name: '工具稍等暗示稍等.pdf',
-            ans_file_id: '12312321113fsa1231'
-          },
-          {
-            ans_file_name: '123123.pdf',
-            ans_file_id: '12312321113fsa1231'
-          },
-          {
-            ans_file_name: 'wddasd.pdf',
-            ans_file_id: '12312321113fsa1231'
-          }
-        ]}
+          ans_files: [{
+              ans_file_name: '工具稍等暗示稍等.pdf',
+              ans_file_id: '12312321113fsa1231'
+            },
+            {
+              ans_file_name: '123123.pdf',
+              ans_file_id: '12312321113fsa1231'
+            },
+            {
+              ans_file_name: 'wddasd.pdf',
+              ans_file_id: '12312321113fsa1231'
+            }
+          ]
+        }
         this.initFilesChat(ans);
       }
     },
+
+    // 拆分文件、文本类型回答
+		initFilesChat(ans) {
+			let that = this;
+			if (ans.ans_content) {
+				that.data.chatList.push({
+					type: 'other',
+					ans_type: 1,
+					content: ans.ans_content,
+					ansUseful: null,
+				})
+			}
+			if (ans.ans_files.length > 0) {
+				that._getFileUrlForId(
+					ans.ans_files
+				).then( res => {
+					console.log('_getFileUrlForId-res==>', res)
+					res.forEach((fl, index) => {
+					  console.log('chatList==>', that.data.chatList)
+
+            that.data.chatList.push({
+              type: 'other',
+              ans_type: 2,
+              file: fl,
+              ansUseful: index == ans.ans_files.length - 1 ? 0 : null,
+            })
+					})
+				})
+        // TODO: 异步渲染
+        setTimeout(()=> {that.reView()}, 500);
+
+			}
+		},
 
     // 调试发送
     mokeSend() {
@@ -211,14 +254,14 @@ Component({
         content: this.data.inputContent,
         timeStr: '2021-7-1 12:00:21',
       })
-      
+
       this.setData({
-        chatList:  this.data.chatList,
-        scrollItem: 'chat'+ (this.data.chatList.length - 1),
+        chatList: this.data.chatList,
+        scrollItem: 'chat' + (this.data.chatList.length - 1),
         inputContent: '',
-      },()=>{
+      }, () => {
         console.log('scrollItem===>', this.data.scrollItem)
-        setTimeout(()=>{
+        setTimeout(() => {
           this.data.chatList.push({
             ans_type: '1',
             type: 'other',
@@ -248,8 +291,8 @@ Component({
             '这是追加的问题3',
           ])
           this.setData({
-            chatList:  this.data.chatList,
-            scrollItem: 'chat'+ (this.data.chatList.length - 1),
+            chatList: this.data.chatList,
+            scrollItem: 'chat' + (this.data.chatList.length - 1),
             inputContent: '',
           })
         }, 2000)
@@ -271,7 +314,7 @@ Component({
 
     // 点击问题
     tapQuestion(e) {
-      if(e.currentTarget.dataset.query) {
+      if (e.currentTarget.dataset.query) {
         this.data.inputContent = e.currentTarget.dataset.query;
         this.send();
       }
@@ -284,7 +327,7 @@ Component({
       let inputHeight = e.detail.height > 100 ? 100 : e.detail.height < 20 ? 20 : e.detail.height
       this.setData({
         inputHeight,
-        scrollItem: 'chat'+ (this.data.chatList.length - 1),
+        scrollItem: 'chat' + (this.data.chatList.length - 1),
         scrollHeight: wx.getSystemInfoSync().windowHeight - (inputHeight + 80),
       })
     },
@@ -300,7 +343,7 @@ Component({
         ] // 需要预览的图片http链接列表
       })
     },
-    
+
     // 点击有用\无用控件
     usefulHandle(e) {
       let {
@@ -308,7 +351,7 @@ Component({
         useful
       } = e.currentTarget.dataset
 
-      if(this.data.chatList[index].ansUseful != 0) {
+      if (this.data.chatList[index].ansUseful != 0) {
         return
       }
       // TODO: 对接问题是否有用接口
@@ -325,71 +368,31 @@ Component({
     // 获取当前时间字符串
     getTimeStr() {
       let time = new Date(),
-      nowYear  = time.getFullYear(),
-      nowMonth  = time.getMonth() + 1,
-      nowDay = time.getDate(),
-      nowHour = time.getHours(),
-      nowMinute = time.getMinutes();
-      console.log('nowTime===>', nowYear + '-' + nowMonth + '-' + nowDay + ' ' + nowHour + ':' + (nowMinute < 10 ? '0'+nowMinute : nowMinute) )
-      let nowTime = nowYear + '-' + nowMonth + '-' + nowDay + ' ' + nowHour + ':' + (nowMinute < 10 ? '0'+nowMinute : nowMinute)
+        nowYear = time.getFullYear(),
+        nowMonth = time.getMonth() + 1,
+        nowDay = time.getDate(),
+        nowHour = time.getHours(),
+        nowMinute = time.getMinutes();
+      console.log('nowTime===>', nowYear + '-' + nowMonth + '-' + nowDay + ' ' + nowHour + ':' + (nowMinute < 10 ? '0' + nowMinute : nowMinute))
+      let nowTime = nowYear + '-' + nowMonth + '-' + nowDay + ' ' + nowHour + ':' + (nowMinute < 10 ? '0' + nowMinute : nowMinute)
       return nowTime
     },
-    
-    // 拆分文件、文本类型回答  TODO: 待抽象进behavior
-    initFilesChat(ans) {
-      let that = this;
-      that.data.chatList.push({
-        type: 'other',
-        ans_type: 1,
-        content: ans.ans_content,
-        ansUseful: null,
-      })
-      ans.ans_files.forEach((fl,index) => {
-        that.data.chatList.push({
-          type: 'other',
-          ans_type: 2,
-          file: {
-            name: fl.ans_file_name,
-            type: 'pdf',
-            url: that.getFileUrlForId(fl.ans_file_id),
-          },
-          ansUseful: index == ans.ans_files.length - 1 ? 0 : null,
-        })
-      })
-      that.setData({
-        chatList: that.data.chatList,
-        scrollItem: 'chat'+ (this.data.chatList.length - 1),
+
+    // 重新渲染
+    reView() {
+      this.setData({
+        chatList: this.data.chatList,
+        scrollItem: 'chat' + (this.data.chatList.length - 1),
         inputContent: '',
+      },()=>{
+        console.log('i am review')
       })
     },
 
-    // 根据文件id获取文件url  TODO: 待抽象进behavior
-    getFileUrlForId(id) {
-      return 'https://ricardo-bucket.oss-cn-hangzhou.aliyuncs.com/%E6%88%91%E6%98%AF%E6%93%8D%E4%BD%9C%E6%89%8B%E5%86%8C.pdf'
-    },
-
-    // 下载并打开文件 TODO: 待抽象进behavior
-    downloadFile(e) {
-      let file = e.currentTarget.dataset.file;
-      wx.downloadFile({
-        url: file.url,
-        filePath: `${wx.env.USER_DATA_PATH}/hsz_robot_ans_files/${file.name}.${file.type}`, // 本地存储路径
-        success (res) {
-          console.log('downloadFile-res ===>', res)
-          if (res.statusCode === 200) {
-            const filePath = res.filePath
-            wx.openDocument({
-              filePath: filePath,
-              success: function (res) {
-                console.log('打开文档成功')
-              }
-            })
-          }
-        },
-        fail (err) {
-          console.log('downloadFile-err ===>', err)
-        },
-      })
+    // 打开文档
+    openDocument(e) {
+      console.log('openDocument===>', e.currentTarget.dataset.file)
+      this._openDocument(e.currentTarget.dataset.file);
     },
 
   }

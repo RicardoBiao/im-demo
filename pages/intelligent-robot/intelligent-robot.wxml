@@ -34,7 +34,7 @@
 
                                     <!-- 文件类型 -->
                                     <block wx:if="{{item.ans_type == 2}}">
-                                        <view bindtap="downloadFile" data-file="{{item.file}}" class="chat-item-file">
+                                        <view bindtap="openDocument" data-file="{{item.file}}" class="chat-item-file">
                                             <image src="./assets/pdf.svg" />
                                             <view style="margin: auto auto auto 20rpx;">{{item.file.name}}</view>
                                         </view>
