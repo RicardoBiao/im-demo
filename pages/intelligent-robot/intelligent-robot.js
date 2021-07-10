@@ -9,7 +9,7 @@
 import {chatBehavior} from './chatBehavior';
 
 var wxSIPlugin = requirePlugin("WechatSI")
-let SIManager = wxSIPlugin.getRecordRecognitionManager();
+const SIManager = wxSIPlugin.getRecordRecognitionManager();
 
 const questionMap = new Map();
 
@@ -23,21 +23,7 @@ Component({
   },
   lifetimes: {
     attached: function () {
-      SIManager.onRecognize = function (res) {
-        console.log("current result", res.result)
-      }
-      SIManager.onStop = function (res) {
-        console.log("record file path", res.tempFilePath)
-        console.log("result", res.result)
-        console.log("this", this)
-        this.send(res.result);
-      }
-      SIManager.onStart = function (res) {
-        console.log("成功开始录音识别", res)
-      }
-      SIManager.onError = function (res) {
-        console.error("error msg", res.msg)
-      }
+      this.initRecord();
     },
   },
 
@@ -134,6 +120,29 @@ Component({
         ]
       )
     },
+
+    // 初始化语音识别回调
+    initRecord() {
+      SIManager.onRecognize = (res) => {
+        console.log("current result", res.result)
+      }
+      SIManager.onStop = (res) => {
+        console.log("record file path", res.tempFilePath)
+        console.log("result", res.result)
+        console.log("this", this)
+        if(res.result == '') {
+          return
+        }
+        this.send(res.result);
+      }
+      SIManager.onStart = (res) => {
+        console.log("成功开始录音识别", res)
+      }
+      SIManager.onError = (res) => {
+        console.error("error msg", res.msg)
+      }
+    },
+
     changeActionMode() {
       this.setData({
         isTextMode: !this.data.isTextMode
@@ -359,6 +368,7 @@ Component({
       this.setData({
         chatList: this.data.chatList
       })
+      console.log('点击有用、无用控件')
       wx.showToast({
         title: '感谢您的反馈',
         icon: 'none'
