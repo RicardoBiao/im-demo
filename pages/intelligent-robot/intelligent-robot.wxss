@@ -39,12 +39,13 @@
 .input-box {
     width: 440rpx;
     height: auto;
-    background-color: #fff;
 }
 .input-box textarea { 
+    background-color: #fff;
     width: 400rpx;
-    margin: 20rpx;
+    padding: 20rpx;
     height: 60rpx;
+    border-radius: 10rpx;
 }
 .send-btn {
     width: 140rpx;
@@ -162,3 +163,22 @@
 }
 
 /* 对话 end */
+
+
+/**************** 原生样式重置 start *******************/
+button {
+    padding: 0 !important;
+    margin: 0;
+    border: none;
+    outline: none;
+    font-size: inherit;
+    line-height: inherit;
+    color: inherit;
+    background-color: transparent;
+}
+
+button::after {
+    display: none;
+}
+  
+  /**************** 原生样式重置 end *******************/

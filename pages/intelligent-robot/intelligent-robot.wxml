@@ -113,7 +113,22 @@
                 </view>
             </view> 
             <view class="input-box">
-                <view style="height: 100%;text-align: center;font-weight: bold;line-height: 80rpx;" wx:if="{{!isTextMode}}" bind:touchstart="startRecord" bind:touchend="stopRecord" bind:touchcancel="stopRecord">按住 说话</view>
+                <!-- <view 
+                    style="height: 100%;text-align: center;font-weight: bold;line-height: 80rpx;" 
+                    wx:if="{{!isTextMode}}" 
+                    bind:touchstart="startRecord" 
+                    bind:touchend="stopRecord" 
+                    bind:touchcancel="stopRecord"
+                >按住 说话</view> -->
+                <block wx:if="{{!isTextMode}}">
+                    <button
+                        style="font-weight: bold;line-height: 80rpx;background-color: #fff;"
+                        bind:touchstart="startRecord" 
+                        bind:touchend="stopRecord" 
+                        bind:touchcancel="stopRecord"
+                        >按住 说话</button>
+                </block>
+                
                 <block wx:else>
                     <textarea 
                         disable-default-padding="{{true}}" 
